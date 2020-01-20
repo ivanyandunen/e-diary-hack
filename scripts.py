@@ -9,8 +9,10 @@ def get_schoolkid(name):
         return schoolkid
     except MultipleObjectsReturned:
         print('Several schoolkids with specified name were found')
+        break
     except ObjectDoesNotExist:
         print('There is no schoolkid with specified name')
+        break
 
 
 def fix_marks(name):
