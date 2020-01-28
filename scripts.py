@@ -9,14 +9,16 @@ def get_schoolkid(name):
         return schoolkid
     except MultipleObjectsReturned:
         print('Several schoolkids with specified name were found')
-        break
+        return None
     except ObjectDoesNotExist:
         print('There is no schoolkid with specified name')
-        break
+        return None
 
 
 def fix_marks(name):
     schoolkid = get_schoolkid(name)
+    if not schoolkid:
+        return None
     marks = Mark.objects.filter(schoolkid=schoolkid, points__lt=4)
     for mark in marks:
         mark.points = 5
@@ -25,6 +27,8 @@ def fix_marks(name):
 
 def remove_chastisements(name):
     schoolkid = get_schoolkid(name)
+    if not schoolkid:
+        return None
     chastisements = Chastisement.objects.filter(schoolkid=schoolkid)
     chastisements.delete()
 
@@ -47,6 +51,8 @@ def get_commendation():
 
 def create_commendation(name, subject):
     schoolkid = get_schoolkid(name)
+    if not schoolkid:
+        return None
     lesson = Lesson.objects.filter(
         year_of_study=schoolkid.year_of_study,
         group_letter=schoolkid.group_letter,
